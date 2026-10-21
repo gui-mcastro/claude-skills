@@ -118,10 +118,21 @@ exemplo curto quando ajudar. Seja direto.
 - **Yii 4 — Sem JS/CSS inline em views**: JS em arquivo externo com `registerJsFile` e
   `'appendTimestamp' => true`; CSS com `registerCssFile`. Aponte `<script>`/`<style>` inline e
   `registerJsFile` sem `appendTimestamp` (grafia exata).
-- **Yii 5 — IDs de Panel**: `idPanel` = `clp-` + `'title'` em kebab-case (minúsculo, sem acento,
-  espaços e símbolos viram hífen). Ex.: `'Avaliações Antes de 2026'` →
-  `clp-avaliacoes-antes-de-2026`; `'Origem - Suborigem'` → `clp-origem-suborigem`. Título dinâmico:
-  exija só `clp-` + kebab-case descritivo. Ao renomear, lembre de conferir JS/CSS que usam o id.
+- **Yii 5 — IDs de Panel**: `idPanel` sempre começa com `clp-` e segue em kebab-case (minúsculo, sem
+  acento, espaços e símbolos viram hífen). O padrão é `clp-` + `'title'` inteiro, mas o que vem
+  depois do `clp-` pode ser **parte do título**:
+  - **Passa**: formado por palavras inteiras do título, na mesma ordem, podendo omitir palavras
+    (inclusive preposições/artigos como `de`, `da`, `do`), com singular/plural livre. Ex.:
+    `'Avaliações Antes de 2026'` → `clp-avaliacoes-antes-de-2026`, `clp-avaliacoes-2026` e
+    `clp-avaliacoes` passam; `'Origem - Suborigem'` → `clp-origem-suborigem` e `clp-suborigem`
+    passam; `'Relação de Colaboradores'` → `clp-relacao-colaboradores` e `clp-colaboradores` passam.
+  - **Não passa (muito diferente)**: sem o prefixo `clp-`; fora de kebab-case (`clp_dados`,
+    `clpDados`, acento); palavra que não está no título (`clp-dados` para `'Origem - Suborigem'`,
+    `clp-form-usuario-web-service-origem` para `'Origem - Suborigem'`); abreviação (`clp-os`);
+    tradução. Nesses casos, peça `clp-` + o título inteiro em kebab-case.
+  - Se dois panels da mesma tela ficarem com o mesmo id parcial, peça o título inteiro.
+  - Título dinâmico (variável/concatenação): exija só `clp-` + kebab-case descritivo.
+  - Ao pedir renomeação, lembre de conferir JS/CSS que usam o id antigo.
 - **Yii 6 — Name/id de campos com model binding**: `name='Model[atributo]'` e
   `id='model-atributo'` (model em minúsculo, atributo preservado). Valide input, select, Select2,
   DepDrop e dynamic grids. Explique a relação com `load()`/`save()` e os conflitos de DOM.
