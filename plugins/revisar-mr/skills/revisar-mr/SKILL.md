@@ -53,7 +53,8 @@ Se o argumento for vazio e o diretório atual não for um repositório git, perg
 3. Para conferir uso fora do diff (classe apagada, método renomeado, relação existente), use Grep e
    Read no próprio repositório. O código local já é a branch de origem.
 4. Migrations:
-   - `--migrations <link>`: leia o MR pelo Chrome como no modo GitLab;
+   - `--migrations <link>` ou `--migrations !<id>` (número de MR do `df/migrations-sgi`): leia o MR pelo
+     Chrome como no modo GitLab; a base é a branch de destino desse MR;
    - `--migrations <caminho>`: repositório local do migrations-sgi, comparado com a **mesma base do
      Cérebro** (base `master` no Cérebro → `master` nas migrations):
      ```bash
