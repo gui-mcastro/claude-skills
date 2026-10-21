@@ -93,10 +93,19 @@ exemplo curto quando ajudar. Seja direto.
 
 - **Yii 1 — Fat Model / Skinny Controller**: proíba consultas, filtros complexos e manipulação de
   dados na Controller e na View. Acesso a dados fica em Models ou Repositories.
-- **Yii 2 — Nome de relacionamentos**: todo `hasOne`/`hasMany` se chama `getRel` + **nome exato da
-  classe relacionada**, sem plural e sem apelido. Ex.: `hasOne(SistemaSuborigem::class)` →
-  `getRelSistemaSuborigem`; `hasMany(UsuarioWebServiceSuborigem::class)` →
-  `getRelUsuarioWebServiceSuborigem` (não `getRelSuborigens`); `getUser` → `getRelUser`.
+- **Yii 2 — Nome de relacionamentos**: todo `hasOne`/`hasMany` começa com `getRel` (não `getUser`,
+  `getColaboradorRel`). O padrão é `getRel` + nome da classe relacionada, mas o que vem depois do
+  `getRel` pode ser **parte do nome da classe**:
+  - **Passa**: o nome é formado por palavras inteiras do nome da classe (divisão PascalCase), na
+    mesma ordem, com singular/plural livre. Ex.: classe `UsuarioWebServiceSuborigem` →
+    `getRelUsuarioWebServiceSuborigem`, `getRelSuborigem` e `getRelSuborigens` passam; classe
+    `SistemaSuborigem` → `getRelSuborigem` passa.
+  - **Não passa (muito diferente)**: palavra que não está no nome da classe (`getRelItens`,
+    `getRelDados`, `getRelLista`), abreviação (`getRelUwss`), tradução ou sinônimo
+    (`getRelSubOrigins`, `getRelResponsavel` para `User`), ou o nome sem o `getRel` (`getUser`).
+    Nesses casos, peça `getRel` + **nome exato da classe**.
+  - Se duas relações do mesmo arquivo ficarem ambíguas com o nome parcial (ex.: `getRelSuborigem`
+    para `SistemaSuborigem` e para `UsuarioWebServiceSuborigem`), peça o nome exato da classe.
   - **Exceção**: aceite outro nome (ex.: `getRelCriacao`, `getRelResponsavel` para `User`) só se
     **já existir** no mesmo arquivo (incluindo a classe base/ActiveQuery, como
     `FornecedorActiveQuery`) um `getRel<NomeDaModel>` para essa model. Confira no arquivo da branch
