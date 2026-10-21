@@ -95,15 +95,22 @@ exemplo curto quando ajudar. Seja direto.
   dados na Controller e na View. Acesso a dados fica em Models ou Repositories.
 - **Yii 2 — Nome de relacionamentos**: todo `hasOne`/`hasMany` começa com `getRel` (não `getUser`,
   `getColaboradorRel`). O padrão é `getRel` + nome da classe relacionada, mas o que vem depois do
-  `getRel` pode ser **parte do nome da classe**:
-  - **Passa**: o nome é formado por palavras inteiras do nome da classe (divisão PascalCase), na
-    mesma ordem, com singular/plural livre. Ex.: classe `UsuarioWebServiceSuborigem` →
+  `getRel` pode ter a ver com **o nome da classe** ou com **o campo da relação** (a coluna do
+  model atual no `hasOne`/`hasMany`, ex.: `cd_responsavel` em `['id' => 'cd_responsavel']`):
+  - **Passa pela classe**: palavras inteiras do nome da classe (divisão PascalCase), na mesma
+    ordem, com singular/plural livre. Ex.: classe `UsuarioWebServiceSuborigem` →
     `getRelUsuarioWebServiceSuborigem`, `getRelSuborigem` e `getRelSuborigens` passam; classe
     `SistemaSuborigem` → `getRelSuborigem` passa.
-  - **Não passa (muito diferente)**: palavra que não está no nome da classe (`getRelItens`,
-    `getRelDados`, `getRelLista`), abreviação (`getRelUwss`), tradução ou sinônimo
-    (`getRelSubOrigins`, `getRelResponsavel` para `User`), ou o nome sem o `getRel` (`getUser`).
-    Nesses casos, peça `getRel` + **nome exato da classe**.
+  - **Passa pelo campo**: palavras do nome do campo sem o prefixo (`cd_`, `id_`, `nr_`, `tp_`,
+    `st_` etc.), na mesma ordem, aceitando a abreviação do campo escrita por extenso. Ex.:
+    `hasOne(User::class, ['id' => 'cd_responsavel'])` → `getRelResponsavel`;
+    `['id' => 'id_criacao']` → `getRelCriacao`; `['id' => 'cd_usu_resp']` → `getRelUsuResp` ou
+    `getRelUsuarioResponsavel`; `['cd_unidade' => 'cd_unidade_resp']` → `getRelUnidadeResp`.
+  - **Não passa (muito diferente)**: palavra que não está nem na classe nem no campo
+    (`getRelItens`, `getRelDados`, `getRelLista`), abreviação que não vem do campo (`getRelUwss`),
+    tradução ou sinônimo (`getRelSubOrigins`, `getRelGestor` para `cd_responsavel`), ou o nome
+    sem o `getRel` (`getUser`). Nesses casos, peça `getRel` + **nome exato da classe** (ou do
+    campo, se houver mais de uma relação para a mesma classe).
   - Se duas relações do mesmo arquivo ficarem ambíguas com o nome parcial (ex.: `getRelSuborigem`
     para `SistemaSuborigem` e para `UsuarioWebServiceSuborigem`), peça o nome exato da classe.
   - **Exceção**: aceite outro nome (ex.: `getRelCriacao`, `getRelResponsavel` para `User`) só se
