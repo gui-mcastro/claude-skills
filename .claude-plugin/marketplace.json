@@ -1,0 +1,12 @@
+{
+  "name": "gui-mcastro-skills",
+  "owner": { "name": "Guilherme Moura de Castro" },
+  "description": "Skills de agente do Guilherme Moura de Castro (code review do Cérebro e migrations-sgi).",
+  "plugins": [
+    {
+      "name": "revisar-mr",
+      "source": "./plugins/revisar-mr",
+      "description": "Code review de MRs do Cérebro (Yii2) e do migrations-sgi, pelo GitLab ou localmente."
+    }
+  ]
+}

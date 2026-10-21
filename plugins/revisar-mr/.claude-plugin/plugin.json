@@ -1,0 +1,6 @@
+{
+  "name": "revisar-mr",
+  "version": "1.0.0",
+  "description": "Code review de MRs do Cérebro (Yii2) e do migrations-sgi, pelo GitLab ou localmente.",
+  "author": { "name": "Guilherme Moura de Castro" }
+}
