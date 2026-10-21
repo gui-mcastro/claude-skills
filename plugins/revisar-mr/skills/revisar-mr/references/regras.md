@@ -143,3 +143,28 @@ exemplo curto quando ajudar. Seja direto.
 - **Yii 6 — Name/id de campos com model binding**: `name='Model[atributo]'` e
   `id='model-atributo'` (model em minúsculo, atributo preservado). Valide input, select, Select2,
   DepDrop e dynamic grids. Explique a relação com `load()`/`save()` e os conflitos de DOM.
+- **Yii 7 — `in_array` em vez de condições repetidas**: quando a **mesma expressão** é comparada
+  com dois ou mais valores ligados por `||` (ou `!==`/`!=` ligados por `&&`), peça `in_array`
+  com lista. Vale também para `elseif` em sequência que só repete a comparação.
+  ```php
+  // antes
+  if ($status == SacChamadoStatus::RASCUNHO || $status == SacChamadoStatus::ENCAMINHADO) {
+  // depois
+  if (in_array($status, [SacChamadoStatus::RASCUNHO, SacChamadoStatus::ENCAMINHADO], true)) {
+
+  // antes
+  if ($tipo !== 'A' && $tipo !== 'B' && $tipo !== 'C') {
+  // depois
+  if (!in_array($tipo, ['A', 'B', 'C'], true)) {
+  ```
+  - Use o terceiro parâmetro `true` (comparação estrita). Se o tipo vindo do banco/post não bater
+    com o da constante (ex.: `'1'` × `1`), peça o cast antes (`(int) $valor`) em vez de tirar o
+    `true`.
+  - Lista usada em mais de um lugar vira constante na model (ex.:
+    `SacModulo::MODULOS_SAC = [3, self::MODULO_PADRAO_SAC]`).
+  - Em query, o mesmo vale: `->where(['campo' => [1, 2, 3]])` (gera `IN`) em vez de
+    `orWhere` repetido para o mesmo campo.
+  - Em JS: `[a, b].includes(valor)` em vez de `valor === a || valor === b`.
+  - **Não se aplica** quando as comparações usam operadores diferentes (`<`, `>`, `between`),
+    variáveis diferentes, ou cada ramo do `if/elseif` faz algo diferente (aí sugira `match`, se
+    couber, mas não reprove).
